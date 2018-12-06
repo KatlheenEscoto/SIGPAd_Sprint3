@@ -1,0 +1,62 @@
+{% extends "baseInterior.html" %}
+{% load staticfiles %}
+
+	{% block Titulo %}
+		Ingresar Horas Extra
+	{% endblock Titulo %}
+	{% block CSS %}
+		<link rel="stylesheet" type="text/css" href="{% static "interior/css/ingresarPuesto.css" %}">
+
+	{% endblock CSS %}
+
+	{% block Body %}
+	{%if alerta %}
+ 		<p class="alert alert-success text-center" id="crearPuesto"><b>{{alerta}}</b></p>
+ 	{%endif%}
+	{%if error %}
+ 		<p class="alert alert-danger text-center" id="errorPuesto"><b>{{error}}</b></p>
+ 	{%endif%}
+
+    <div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+					<div class="login100-form-title-4">
+						<span class="login100-form-title-1">
+							<h2>FALTAS DE EMPLEADOS</h2>
+						</span>
+					</div>
+				<!-- Formulario -->
+			<b><center>{{validar}}</center></b>
+
+			<form class="login100-form validate-form" action="" method="POST" role="form" enctype="multipart/form-data" accept-charset="UTF-8">
+	            {% csrf_token %}
+
+	            <div class="wrap-input100 validate-input m-b-26">
+					<span class="label-input100">Nombre del empleado </span>
+					<input class="input100" type="text" id="nombre" name="nombre" required="required" value="{{empleado.nombre}}" disabled="true">
+					<span class="focus-input100"></span>
+				</div>
+
+	            <div class="wrap-input100 validate-input m-b-26" data-validate="Falta es un campo requerido.">
+					<span class="label-input100">Falta </span>
+					<input class="input100" type="text" placeholder="Ingresa Falta" id="sancion" name="sancion" required="required">
+					<span class="focus-input100"></span>
+				</div>
+				<div class="wrap-input100 validate-input m-b-26" data-validate="Descripción es un campo requerido.">
+					<span class="label-input100">Descripción </span>
+					<input class="input100" type="text" placeholder="Ingresa Descripción" id="descripcion" name="descripcion" required="required">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="container-login100-form-btn">
+					<button class="login100-form-btn" type="submit">
+								Ingresar
+					</button>
+				</div>
+
+	        </form>
+	        
+		</div>
+	</div>
+	</div>
+	{% endblock Body %}

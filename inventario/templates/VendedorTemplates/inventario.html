@@ -1,0 +1,267 @@
+{% extends "baseUser.html" %}
+{% load staticfiles %}
+
+
+{% block Body %}
+{%if user.is_authenticated%}
+<style type="text/css">
+    details {
+        padding: 15px;
+        background-color: #f6f7f8;
+        margin-bottom: 20px;
+    }
+    summary {
+        cursor: pointer;
+    }
+    summary::-webkit-details-marker {
+        display: none;
+    }
+    summary:before {
+        content: "\2714"; 
+        color: #696f7c;
+        margin-right: 5px;
+    }
+    .archivo{
+        padding:20px;
+        margin-left:60px;
+        margin-top: 40px;
+    }
+    .descarga{
+        padding:5px;
+        margin-left:10px;
+    }
+
+    .aceptar{
+        border-radius: 10px;
+    }
+
+    .margen{
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+    /*Estilos para el boton: buscar */
+    .boton-buscar{
+        border: 0;
+        font-size: 2rem;
+        margin: 0;
+        padding: 0 .5rem;
+        background: transparent;
+    }
+    
+    .boton-buscar:focus{
+        outline: 0; 
+    }
+
+    .boton-buscar {
+        margin-left: auto;
+        margin-right: .8rem; 
+    }
+    /*Estilos bloque buscar*/
+    #bloque-buscar {
+        -webkit-box-flex: 1;
+        -webkit-flex: 1 1 100%;
+        -ms-flex: 1 1 100%;
+        flex: 1 1 100%; 
+    }
+
+    .contenedor-bloque-buscar {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        height: 3rem;
+        margin: 1rem 0; 
+    }
+    .contenedor-bloque-buscar input[type="text"] {
+        border: 0;
+        border-radius: 5px 0 0 5px;
+        padding: 1rem;
+        -webkit-box-flex: 1;
+        -webkit-flex: 1 1 auto;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto; 
+    }
+    .contenedor-bloque-buscar input[type="submit"] {
+        -webkit-box-flex: 1;
+        -webkit-flex: 1 1 auto;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        border: 0;
+        border-radius: 0 5px 5px 0;
+        -webkit-box-flex: 0;
+        -webkit-flex: 0 1 auto;
+        -ms-flex: 0 1 auto;
+        flex: 0 1 auto;
+        padding: 0 1rem; 
+    }
+    #link{
+        margin-left: 10px;
+    }
+
+</style>
+<div class="row margen">
+    <div class="col-xs-12">
+        <section class="panel panel-default h2 text-center">
+            <div class="panel-heading"><span class="semi-bold"> Inventario </span> </div>
+        </section>
+        {% if error %}
+            <section class="panel panel-default h2 text-center">
+                <div class="panel-heading"><span class="semi-bold alert-danger"> {{error}} </span> </div>
+            </section>
+        {% elif exito %}
+            <section class="panel panel-default h2 text-center">
+                <div class="panel-heading"><span class="semi-bold alert alert-success"> {{exito}} </span> </div>
+            </section>
+        {% endif %}
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-xs-12">
+                    <button type="button" class="boton-buscar">
+                        <a href="/" class="btn btn-alert aceptar descarga">regresar <i class="glyphicon glyphicon-arrow-left"></i></a>
+                    </button>
+                    <button type="button" class="btn btn-info aceptar descarga" data-toggle="modal" data-target="#idmensaje" >
+                        enviar mensaje
+                        <i class="glyphicon glyphicon-send"> </i>
+                    </button>
+                    <a href="/descargarInventario" class="btn btn-info aceptar descarga">
+                        Descargar inventario
+                        <i class="glyphicon glyphicon-save"> </i>
+                    </a>
+                    <button type="button" class="btn btn-info aceptar descarga" data-toggle="collapse" data-target="#bloque-buscar" aria-expanded="false">buscar
+                        <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+                <div class="col-xs-4">
+                    <nav class="navbar">
+                        <form class="form-inline collapse" method="GET" action="" id="bloque-buscar">
+                            <div class="contenedor-bloque-buscar">
+                                <input type="text" id="accion" name="accion" value="buscar" hidden="">
+                                <input name="consulta" type="text" placeholder="Buscar" value="{{request.GET.consulta}}" class="aceptar">
+                                <input type="submit" value="Buscar" class="btn btn-success aceptar">
+                            </div>
+                        </form>
+                    </nav>
+                </div>
+        </div>
+    </div>
+</div>
+
+<div class="row margen">
+    <div class="col-xs-10">
+        <div class="block-web">
+            <table class="table">
+                <marquee behavior="alternate">Asignele precio a los productos en rojo</marquee>
+                <thead class="bg-primary">
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>marca</th>
+                        <th>existencia</th>
+                        <th>precio</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in producto %}
+                    <tr>
+                        <td>{{p.codigo}}</td>
+                        <td>{{p.nombre}}</td>
+                        <td>{{p.descripcion}}</td>
+                        <td>{{p.marca}}</td>
+                        <td> {{p.inventario.existencia}}</td>
+                        {% if p.inventario.precio_venta_producto == 0 %}
+                        <td> <font size="3" style="color:red;">{{p.inventario.precio_venta_producto}} </font></td>
+                        {% else %}
+                        <td> {{p.inventario.precio_venta_producto}} </td>
+                        {% endif %}
+
+                        <td>
+                            <div class="row" align="center">
+                                <a href="mostrarKardex/{{p.id}}" class="col-xs-5 text-xs-center">
+                                    <font size="4">
+                                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true" id="link"></span>
+                                    </font>
+                                    kardex
+                                </a> 
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-xs-9">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {% if producto.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ producto.previous_page_number }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}">Anterior</a></li>
+                    {%else%}
+                    <li class="disabled"><span>Anterior</span></li>
+                    {% endif %} {% for i in producto.paginator.page_range %} {% if producto.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span>
+                    </li>
+                    {% else %}
+                    <li><a href="?page={{ i }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}">{{ i }}</a></li>
+                    {% endif %} {% endfor %} {% if producto.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ producto.next_page_number }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}">Siguiente</a></li>
+                    {%else%}
+                    <li class="disabled"><span>Siguiente </span></li>
+                    {% endif %}
+                </ul>                        
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="idmensaje" tabindex="-1" role="dialog" aria-labelledy="modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title">Enviar mensajes a administradores</h5>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="text" name="accion" id="accion" hidden="">
+                    <div class="form-group row">
+                        <label for="de" class="col-md-8 col-form-label">De: <strong>{{empleado.nombre}} {{empleado.apellido}}</strong> </label>
+                    </div>
+                    <div class="form-group row">
+                        <label for="para" class="col-md-12 col-form-label">Para: <strong> 
+                            {% if admin %}
+                            {% for a in admin %} 
+                                {{a.nombre}} {{a.apellido}}, 
+                            {% endfor %}
+                            {% endif %}
+                                Administrado por default
+                            </strong> </label>
+                    </div>
+                    <div class="form-group row">
+                            <label for="msj" class="col-md-4 col-form-label">mensaje:</label>
+                            <div class="col-md-8">
+                                <textarea name="mensaje" id="mensaje" class="form-control" placeholder="mensaje al administrador" title="ingrese su mensaje" required="" maxlength="300"></textarea>
+                            </div>
+                    </div>
+                    <input type="submit" name="enviar" value="enviar" class="btn btn-success aceptar">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary aceptar" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%else%}
+<h1>usuario anonimo</h1>
+{% endif %}
+{% endblock Body %}

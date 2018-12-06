@@ -1,0 +1,53 @@
+{% extends "exterior/foro_interior.html" %} 
+{% load staticfiles %}
+{% block Body %}
+<section>
+    <div class="container mt-5">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <div {% if message.tags %} class="{{ message.tags }} text-center" {% endif %}>
+                <h5 class="font-weight-bold">{{ message }}</h5>
+            </div>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% if error %}
+        <ul>
+            <div class="alert-info">
+                <h4 class="text-center font-weight-bold">{{error}}</h4>
+            </div>
+        </ul>        
+        {% else %}
+            <div class="row">
+                <div class="col">
+                    <h2 class="text-center">Pre-Orden</h2>
+                </div>
+            </div>
+            <div class="row">
+                <table class="table table-hover text-center">            
+                    <thead class="thead bg-info">
+                        <td><h5 class="font-weight-bold">Nombre</h5></td>
+                        <td><h5 class="font-weight-bold">Cantidad</h5></td>
+                        <td><h5 class="font-weight-bold">Accion</h5></td>
+                    </thead>
+                    {% for r in reserva %}
+                    <tr>
+                        <td><h6>{{r.producto.nombre}}</h6></td>
+                        <td><h6>{{r.cantidad}}</h6></td>
+                        <td class="text-center">
+                        <a class="btn btn-success" href="{% url 'Foro:editarReserva' r.id %}"> Editar</a>
+                        <a class="btn btn-danger" href="/eliminar_pre/{{r.id}}"> Cancelar</a></td>
+                    </tr>
+
+                    {% endfor %}
+                </table>              
+            </div>
+                
+        {% endif %}
+    </div>
+    
+                
+</section>
+        
+{% endblock Body %}

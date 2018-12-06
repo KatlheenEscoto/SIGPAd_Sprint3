@@ -1,0 +1,520 @@
+{% extends "exterior/foro_interior.html" %} 
+{% load staticfiles %}
+{% block cssMensaje %}
+    <script type="text/javascript" src="{% static 'alertas/alertas.js' %}"></script>
+    <link rel="stylesheet" href="{% static '/css/bootstrap4.css'%}">
+    <script src="{% static "console_1.js" %}"></script>
+    <script src="{% static "events_runner.js" %}"></script>
+    <script src="{% static "css_live_reload_init.js" %}"></script>
+    <meta charset='UTF-8'>
+    <meta name="robots" content="noindex">
+    <script src="{% static "js/hoy3lrg.js" %}"></script>
+    <script src="{% static "js/jquery-ui-datepicker.min.js" %}"></script>
+    <script>
+        try{ 
+          Typekit.load({ async: true });
+        }catch(e){}
+    </script>
+    <link rel='stylesheet prefetch' href="{% static "css/frame.css" %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'interior/css/admin.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'interior/css/estilos.css'%}">
+    <link rel='stylesheet prefetch' href="{% static "css/reset.min.css" %}">
+    <link rel='stylesheet prefetch' href="{% static "css/font-awesome.min.css" %}">
+    <link href="{% static 'exterior/vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link href="{% static 'exterior/vendor/magnific-popup/magnific-popup.css'%}" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'exterior/css/freelancer.css'%}" rel="stylesheet">
+{% endblock cssMensaje %}
+
+{% block Footer %}
+{% endblock Footer %}
+
+{% block Body %}
+
+<style>
+    html,body{
+        height:100%;
+        width:100%;
+    }
+
+    .imagen{
+        height: 200%;
+        width: 100%;
+        border-radius: 15px;
+    }
+
+    .alto{
+        height: 220px;
+        border: 10px solid transparent;
+        margin-bottom: 25px;
+    }
+
+
+    .color{
+          padding: 10px;
+          background-color: #FFFFFF;
+          border-radius: 15px;
+          color:#262a33;
+    }
+
+    @media (min-width: 992px) {
+
+        #mainNav {
+            padding-top: 0.4rem;
+            padding-bottom: 0.4rem;
+            -webkit-transition: padding-top 0.3s, padding-bottom 0.3s;
+            transition: padding-top 0.3s, padding-bottom 0.3s;
+        }
+
+        .padd {
+            padding-top: 6rem;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+
+    }
+
+    .bg-dos{
+        background-color: #1bd6b2;
+    }
+    .color{
+        height: 100%;
+        color: black;
+    }
+
+
+    .colrs{
+        background-color:rgba(38, 42, 51, 1)
+    }
+
+/* Reset */
+.ui-datepicker,
+.ui-datepicker table,
+.ui-datepicker tr,
+.ui-datepicker td,
+.ui-datepicker th {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-spacing: 0;
+}
+
+/* Calendar Wrapper */
+.ui-datepicker {
+    display: none;
+    width: 294px;
+    padding: 35px;
+    cursor: default;
+
+    text-transform: uppercase;
+    font-family: Tahoma;
+    font-size: 12px;
+
+    background: #141517;    
+
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+
+    -webkit-box-shadow: 0px 1px 1px rgba(255,255,255, .1), inset 0px 1px 1px rgb(0,0,0);
+    -moz-box-shadow: 0px 1px 1px rgba(255,255,255, .1), inset 0px 1px 1px rgb(0,0,0);
+    box-shadow: 0px 1px 1px rgba(255,255,255, .1), inset 0px 1px 1px rgb(0,0,0);
+}
+
+/* Calendar Header */
+.ui-datepicker-header {
+    position: relative;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #d6d6d6;
+}
+
+.ui-datepicker-title { text-align: center; }
+
+/* Month */
+.ui-datepicker-month {
+    position: relative;
+    padding-right: 15px;
+    color: #565656;
+}
+
+.ui-datepicker-month:before {
+    display: block;
+    position: absolute;
+    top: 5px;
+    right: 0;
+    width: 5px;
+    height: 5px;
+    content: '';
+
+    background: #a5cd4e;
+    background: -moz-linear-gradient(top, #a5cd4e 0%, #6b8f1a 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a5cd4e), color-stop(100%,#6b8f1a));
+    background: -webkit-linear-gradient(top, #a5cd4e 0%,#6b8f1a 100%);
+    background: -o-linear-gradient(top, #a5cd4e 0%,#6b8f1a 100%);
+    background: -ms-linear-gradient(top, #a5cd4e 0%,#6b8f1a 100%);
+    background: linear-gradient(top, #a5cd4e 0%,#6b8f1a 100%);
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+/* Year */
+.ui-datepicker-year {
+    padding-left: 8px;
+    color: #a8a8a8;
+}
+
+/* Prev Next Month */
+.ui-datepicker-prev,
+.ui-datepicker-next {
+    position: absolute;
+    top: -2px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.ui-datepicker-prev {
+    left: 0;
+    padding-left: 0;
+}
+
+.ui-datepicker-next {
+    right: 0;
+    padding-right: 0;
+}
+
+.ui-datepicker-prev span,
+.ui-datepicker-next span{
+    display: block;
+    width: 5px;
+    height: 10px;
+    text-indent: -9999px;
+
+    background-image: url(../img/arrows.png);
+}
+
+.ui-datepicker-prev span { background-position: 0px 0px; }
+
+.ui-datepicker-next span { background-position: -5px 0px; }
+
+.ui-datepicker-prev-hover span { background-position: 0px -10px; }
+
+.ui-datepicker-next-hover span { background-position: -5px -10px; }
+
+/* Calendar "Days" */
+.ui-datepicker-calendar th {
+    padding-top: 15px;
+    padding-bottom: 10px;
+    
+    text-align: center;
+    font-weight: normal;
+    color: #a8a8a8;
+}
+
+.ui-datepicker-calendar td {
+    padding: 0 7px;
+    
+    text-align: center;
+    line-height: 26px;
+}
+
+.ui-datepicker-calendar .ui-state-default {
+    display: block;
+    width: 26px;
+    outline: none;
+
+    text-decoration: none;
+    color: #a8a8a8;
+    
+    border: 1px solid transparent;
+}
+
+/* Day Active State*/
+.ui-datepicker-calendar .ui-state-active {
+    color: #6a9113;
+    border-color: #6a9113;
+}
+
+/* Other Months Days*/
+.ui-datepicker-other-month .ui-state-default { color: #565656; }
+
+
+</style>
+    {% if yo.is_authenticated %}
+        <div id="frame" style="min-width: 150px; max-width: 8000px; height: 92vh; min-height: 100px; max-height: 625px; margin-top:45px;">
+            <div id="sidepanel">
+                <div id="profile">
+                    <div class="wrap">
+                    {% if yo.cliente_set.all %}
+                        {% for cl in yo.cliente_set.all %}
+                            {% if cl.foto %}
+                                <img  id="profile-img" src="/media/{{cl.foto}}" alt="" height="50px"  class="online"/>
+                            {% else %}
+                                <img  id="profile-img" src="{% static "images/user.png" %}" class="online" alt="" />
+                            {% endif %}
+                        {% endfor %}
+                    {% elif yo.empleado_set.all %}
+                        {% for cl in yo.empleado_set.all %}
+                            {% if cl.foto %}
+                                <img  id="profile-img" src="/media/{{cl.foto}}"  class="online" height="50px" alt="foto empleado" />
+                            {% else %}
+                                <img id="profile-img" src="{% static "images/user.png" %}" class="online" alt="" />
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <img src="{% static "images/louislitt.png" %}" alt="" />
+                    {% endif %}
+                    <p> {{yo.username}} </p>
+                    <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
+                    <div id="status-options">
+                        <ul>
+                            <li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
+                            <li id="status-away"><span class="status-circle"></span> <p>Away</p></li>
+                            <li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>
+                            <li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
+                        </ul>
+                    </div>
+                    <div id="expanded" hidden="">
+                        <label for="twitter"><i class=" fa fa-facebook-f" aria-hidden="true"></i></label>
+                        <input name="twitter" type="text" value="mikeross" />
+                        <label for="twitter"><i class="fa fa-twitter fa-fw" aria-hidden="true"></i></label>
+                        <input name="twitter" type="text" value="ross81" />
+                        <label for="twitter"><i class="fa fa-instagram fa-fw" aria-hidden="true"></i></label>
+                        <input name="twitter" type="text" value="mike.ross" />
+                    </div>
+                </div>
+            </div>
+            <div id="search">
+                <form method="GET" class="form-inline"> 
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input type="text"placeholder="Buscar contactos..." value="{{request.GET.consulta}}" name="consulta" id="consulta"/>
+                    <button type="submit" class="btn btn-info" hidden=""><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
+            </div>
+            <div id="contacts">
+                <ul>
+                    {% for us in contactos %}
+                    <li class="contact">
+                        <a href="/mensajes/{{us.id}}">
+                            <div class="wrap">
+                                <span class="contact-status online"></span>
+                                {% if us.cliente_set.all %}
+                                {% for cl in us.cliente_set.all %}
+                                {% if cl.foto %}
+                                <img src="/media/{{cl.foto}}" alt="" height="40px" />
+                                {% else %}
+                                <img src="{% static "images/user.png" %}" alt=""  />
+                                {% endif %}
+                                {% endfor %}
+                                {% elif us.empleado_set.all %}
+                                {% for cl in us.empleado_set.all %}
+                                {% if cl.foto %}
+                                <img src="/media/{{cl.foto}}" alt="" height="40px" />
+                                {% else %}
+                                <img src="{% static "images/user.png" %}" alt="" />
+                                {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                <img src="{% static "images/user.png" %}" alt="" />
+                                {% endif %}
+                                <div class="meta">
+                                    <p class="name">{{us.username}} </p>
+                                    <p class="preview"> {{us.ultimo}} </p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div id="bottom-bar">
+                <button id="addcontact" onclick="location.href='/nuevoMensaje'"><a href="/nuevoMensaje" style="font-size: 15px;"><i class="fa fa-plus" aria-hidden="true"></i> <span>Agregrar contacto</span></a></button>
+                <button id="settings"> <a href="" style="font-size: 15px;"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Editar perfil</span></a></button>
+            </div>
+        </div>
+        <div class="content">
+            <div class="contact-profile">
+                {% if primer %}
+                    {% for cl in primer.cliente_set.all %}
+                        {% if cl.foto %}
+                            <img src="/media/{{cl.foto}}" alt="" height="40px" />
+                        {% else %}
+                            <img src="{% static "images/user.png" %}" alt="" />
+                        {% endif %}
+                    {% endfor %}
+                    {% for cl in primer.empleado_set.all %}
+                        {% if cl.foto %}
+                            <img src="/media/{{cl.foto}}" alt="" height="40px" />
+                        {% else %}
+                            <img src="{% static "images/user.png" %}" alt="" />
+                        {% endif %}
+                    {% endfor %}
+                    <p> {{primer.username}}</p>
+                    <div class="social-media" hidden="">
+                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                    </div>
+                {% else %}
+                    <img src="{% static "images/anonimo.png" %}" alt="" />
+                    <p> Seleccione un destinatario </p>
+                    <div class="social-media" hidden="">
+                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                    </div>
+                {% endif %}
+                {% if error %}
+                    <div class="social-media">
+                        <h3 class="alert-danger">{{error}}</h3>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="messages">
+                <ul>
+                    {% if chat %}
+                        {% for c in chat.mensaje_set.all %}
+                            {% if c.enviado == yo.id %}
+                                <li class="sent" style="margin-left: 0px;">
+                                {% if yo.cliente_set.all %}
+                                    {% for cl in yo.cliente_set.all %}
+                                        {% if cl.foto %}
+                                            <img src="/media/{{cl.foto}}" alt="" height="40px" />
+                                        {% else %}
+                                            <img src="{% static "images/user.png" %}" alt="" />
+                                        {% endif %}
+                                    {% endfor %}
+                                {% elif yo.empleado_set.all %}
+                                    {% for cl in yo.empleado_set.all %}
+                                        {% if cl.foto %}
+                                            <img src="/media/{{cl.foto}}" alt="" height="40px" />
+                                        {% else %}
+                                            <img src="{% static "images/user.png" %}" alt="" />
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <img src="{% static "images/user.png" %}" alt="" />
+                                {% endif %}
+                                    <p> {{c.msj}} </p>
+                                </li>
+                            {% else %}
+                                    <li class="replies">
+                                    {% if primer.cliente_set.all %}
+                                        {% for cl in primer.cliente_set.all %}
+                                            {% if cl.foto %}
+                                                <img src="/media/{{cl.foto}}" alt="" height="30px" />
+                                            {% else %}
+                                                <img src="{% static "images/user.png" %}" alt="" />
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% elif primer.empleado_set.all %}
+                                        {% for cl in primer.empleado_set.all %}
+                                            {% if cl.foto %}
+                                                <img src="/media/{{cl.foto}}" alt="" height="30px" />
+                                            {% else %}
+                                                <img src="{% static "images/user.png" %}" alt="" />
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <img src="{% static "images/user.png" %}" alt="" />
+                                    {% endif %}
+                                        <p>{{c.msj}}</p>
+                                    </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                            <li class="replies">
+                                <img src="{% static "images/user.png" %}" alt="" />
+                                <p>Selecciona un chat!!!</p>
+                            </li>
+                    {% endif %}
+                        <div id="mostrar">
+                              
+                        </div>
+                    </ul>
+                </div>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="message-input">
+                        <div class="wrap">
+                            <input type="text" placeholder="Escriba su mensaje..." style="font-size: 15px;" maxlength="290" max="290" name="msg" id="msg" required="" title="introdusca su mensaje" oninvalid="this.setCustomValidity('Ingrese un mensaje, como lo pensas mandar vacio!!!!!')" />
+                            <a onclick="addFecha()"><i class="fa fa-calendar attachment" aria-hidden="true"></i></a>
+                            <button type="submit" class="submit"><span><i class="fa fa-send" aria-hidden="true"></i></span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
+        <script src='stopExecutionOnTimeout.js'></script>
+        <script src='jquery-2.1.0.js'></script>
+        <script >
+            $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+            $("#profile-img").click(function() {
+                $("#status-options").toggleClass("active");
+                });
+
+            $(".expand-button").click(function() {
+                $("#profile").toggleClass("expanded");
+                $("#contacts").toggleClass("expanded");
+                });
+
+            $("#status-options ul li").click(function() {
+                $("#profile-img").removeClass();
+                $("#status-online").removeClass("active");
+                $("#status-away").removeClass("active");
+                $("#status-busy").removeClass("active");
+                $("#status-offline").removeClass("active");
+                $(this).addClass("active");
+                if($("#status-online").hasClass("active")) {
+                    $("#profile-img").addClass("online");
+                } else if ($("#status-away").hasClass("active")) {
+                    $("#profile-img").addClass("away");
+                } else if ($("#status-busy").hasClass("active")) {
+                    $("#profile-img").addClass("busy");
+                } else if ($("#status-offline").hasClass("active")) {
+                    $("#profile-img").addClass("offline");
+                } else {
+                    $("#profile-img").removeClass();
+                };
+                $("#status-options").removeClass("active");
+            });
+
+            function peticion() {
+                $.get("/servicio_mensajeria/{{yo.id}}/{{primer.id}}",function(data,status){
+                    for(let i=0;i<data.length;i++){
+                        var valor = data[i].fields;                       
+                        var lista=`<li class="replies"><img src="mikeross.png" alt="" /><p> ${valor.msj}</p></li>`
+                        $(lista).appendTo($('.messages ul'));
+                        $(".messages").animate({ scrollTop: $(document).height()+10000000 }, "fast");
+                    }
+                });
+            }
+
+            function addFecha(){
+                var inp =  document.getElementById('msg');
+                var v = inp.value;
+                inp.value="";
+                var f = new Date();
+                inp.value=v+" "+f.getDate()+"/"+(f.getMonth() +1) + "/" + f.getFullYear(); 
+            }
+
+            $(document).ready(function(){
+                var refreshId = setInterval(peticion, 3000);
+                $.ajaxSetup({ cache: false });
+            });
+            $(".messages").animate({ scrollTop: $(document).height()+10000000 }, "fast");
+            </script>    
+    {% else %}
+            <h1>para estar aqui debe registrarse</h1>
+    {% endif %}
+{% endblock Body %}

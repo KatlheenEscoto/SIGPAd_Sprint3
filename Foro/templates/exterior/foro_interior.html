@@ -1,0 +1,141 @@
+{% extends "base_exterior.html" %} 
+{% load staticfiles %} 
+
+{% block META %}
+    <!-- Mini Chat -->
+    <link href="{% static 'css/mini_chat.css'%}" rel="stylesheet" type="text/css">
+{% endblock META %}
+
+{% block CSS %}
+    <style>
+        html,body{
+            height:100%;
+            width:100%;
+        }
+
+        .imagen{
+            height: 200%;
+            width: 100%;
+            border-radius: 15px;
+        }
+
+      </style>
+<style>
+    html,body{
+            height:100%;
+            width:100%;
+    }
+
+    .color{
+          padding: 10px;
+          background-color: #FFFFFF;
+          border-radius: 15px;
+          color:#262a33;
+    }
+
+    @media (min-width: 992px) {
+
+        #mainNav {
+            padding-top: 0.4rem;
+            padding-bottom: 0.4rem;
+            -webkit-transition: padding-top 0.3s, padding-bottom 0.3s;
+            transition: padding-top 0.3s, padding-bottom 0.3s;
+        }
+
+        .padd {
+            padding-top: 6rem;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+
+    }
+
+    .bg-dos{
+        background-color: #1bd6b2;
+    }
+    .color{
+        height: 100%;
+        color: black;
+    }
+
+
+    .colrs{
+        background-color:rgba(38, 42, 51, 1)
+    }
+
+    .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: red;
+    color: white;
+    text-align: center;
+    }
+
+</style>
+{% endblock CSS %}
+
+{% block Navegacion %}
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
+        <div class="container">
+          <a class="navbar-brand js-scroll-trigger" href="#page-top">SIGPAd</a>
+          <button class="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="collapse navbar-collapse " id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item mx-0 mx-lg-1">
+                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/articulos">CATALÓGO</a>
+              </li>
+              <li class="nav-item mx-0 mx-lg-1">
+                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/preorden">Carrito de Compras</a>
+              </li>
+              <li class="nav-item mx-0 mx-lg-1">
+                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/nuevoMensaje/">nuevo contacto</a>
+              </li>
+              <li class="nav-item mx-0 mx-lg-1">
+                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/editarClientes">Mi Perfil</a>
+              </li>
+              <li class="nav-item mx-0 mx-lg-1 dropdown">
+                <a href="" data-toggle="dropdown" class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"> <i class="fa fa-envelope"></i> <span class="badge badge color_1" id="cant">0</span></a>
+                <ul class="drop_down_task dropdown-menu" id="msjUser" style="width:250px;">
+                  <li><a class="py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/mensajes/0"><font size="1">ver todos</font> </a></li>
+                  <li>
+                    <p class="number" style="color:black;"><font size="1">tienes <span id="tienes">0</span> mensajes</font> </p>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="nav-item mx-0 mx-lg-1">
+                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/logout">Cerrar Sesion</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+</nav>
+{% endblock Navegacion %}
+
+{% block Body %}
+    <div class="footer">
+        <p>Footer</p>
+    </div>
+{% endblock Body %}
+
+
+{% block Footer %}
+<div class="abajo">
+      
+        <div id="footer_botones" class="btn-group">
+        </div>
+        <div id="botones"></div>
+</div>
+{% endblock Footer %}
+
+{% block Script %} 
+{% endblock Script %}
+
+
+

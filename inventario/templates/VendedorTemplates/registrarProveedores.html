@@ -1,0 +1,202 @@
+{% extends "baseUser.html" %}
+{% load staticfiles %}
+{% block Body %}
+{% if user.is_superuser %}
+<h1>superusuario</h1>
+{%elif user.is_authenticated%}
+
+<style type="text/css">
+    details {
+        padding: 15px;
+        background-color: #f6f7f8;
+        margin-bottom: 20px;
+    }
+    summary {
+        cursor: pointer;
+    }
+    summary::-webkit-details-marker {
+        display: none;
+    }
+    summary:before {
+        content: "\2714"; 
+        color: #696f7c;
+        margin-right: 5px;
+    }
+    .archivo{
+        padding:20px;
+        margin-left:60px;
+        margin-top: 40px;
+    }
+    .descarga{
+        padding:5px;
+        margin-left:60px;
+        margin-top: 40px;
+    }
+
+    .formulario{
+        margin-left:60px;
+        border-radius: 15px;
+        font-size: 15px;
+        min-height: 30px;
+        max-height: 40px;
+        min-width: 300px;
+        max-width: 600px;
+    }    
+    .formularioD{
+        margin-left:60px;
+        border-radius: 15px;
+        font-size: 15px;
+        min-height: 70px;
+        max-height: 100px;
+        min-width: 400px;
+        max-width: 600px;
+    }    
+
+    .aceptar{
+        margin-top: 20px;
+        border-radius: 15px;
+        min-width: 100px;
+    }    
+
+    .formularioL{
+        margin-left:60px;
+    }
+    .izquierda{
+        float:left;
+        position: relative;
+        z-index: 10;
+    }
+
+</style>
+
+<div class="row">
+    <div class="col-xs-12">
+        {% if error %}
+            <h1 class="center archivo"><strong class="alert alert-danger">{{error}}</strong> </h1>
+        {% elif exito %}
+            <h1 class="center archivo"><strong class="alert alert-success">{{exito}}</strong> </h1>
+        {% endif %}
+        <div class="col-xs-12 archivo">
+            <section class="panel default blue_title h2 text-center">
+                <div class="panel-heading">Registrar <span class="semi-bold">proveedor </span> </div>
+            </section>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-md-5">
+        <div class="col-md-12">
+                <div class="block-web">
+                    <form method="POST" action="" enctype="multipart/form-data" accept-charset="UTF-8" class="form-horizontal row-border">
+                        {% csrf_token %}
+                        <input type="text" name="action" id="action" value="insert" hidden="true">
+                        <div class="form-group">                        
+                            
+                                <label class="col-sm-3 control-label">Razón Social:</label>
+                            <div class="col-sm-6 ">
+                                <input type="text" name="razon_social" id="razon_social" required="" class="form-control">
+                            </div>                            
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">NIT:</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="nit" id="nit" required="" class="form-control">
+                            </div>
+                            
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Teléfono:</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="telefono" id="telefono" required="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Email:</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="email" id="email" required="" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group center">
+                            <input type="submit" name="aceptar" id="aceptar" class="btn btn-success aceptar" value="Ingresar">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+    </div>
+    <div class="col-xs-12 col-md-6">
+        <div class="row">
+                <div class="col-12">
+                    <div class="izquierda">
+                        <a href="/" class="btn btn-success">Regresar</a>
+                    </div>
+                    <nav class="navbar text-right">
+                        <form class="form-inline" method="GET" action="">
+                            <input name="consulta" type="text" placeholder="Buscar" value="{{request.GET.consulta}}">
+                            <input type="submit" value="Buscar" class="btn btn-success">
+                        </form>
+                    </nav>
+                </div>
+                <div class="col-md-12">
+                    <div class="block-web">
+                        <table class="table">
+                            <thead class="bg-primary">
+                                <tr>
+                                    <th>Razón Social</th>
+                                    <th>Teléfono</th>
+                                    <th>Email</th>
+                                    <th>NIT</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="#cuerpo-tabla">
+                                {% for proveedor in proveedor %}
+                                <tr>
+                                    <td>{{proveedor.razon_social}}</td>
+                                    <td>{{proveedor.telefono}}</td>
+                                    <td>{{proveedor.email}}</td>
+                                    <td>{{proveedor.nit}}</td>
+                                    <td><a href="{% url 'inventario:editarProveedores' proveedor.id %}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a> / <a href="{% url 'inventario:eliminarProveedores' proveedor.id %}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <a href="{% url 'inventario:proveedoresEliminados'%}">Proveedores Eliminados <span class="glyphicon glyphicon-list" aria-hidden="true"></span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row  text-center mt-3">
+
+                <nav aria-label="Page navigation example">
+
+                    <ul class="pagination">
+                        {% if proveedor.has_previous%}
+
+                        <button class="btn page-link" id="anterior-pag" href="?page={{ proveedor.previous_page_number }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}">Anterior</button> {% else %}
+
+                        <button class="btn page-link" id="anterior-pag">Anterior</button> {%endif%} {% for i in proveedor.paginator.page_range %} {% if proveedor.number == i %}
+                        <li class="page-item active numPag " val="{{i}}">
+                            <a class="page-link" href="?page={{ i }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}">{{i}}</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item numPag">
+                            <a class="page-link " href="?page={{ i }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}" val="{{i}}">{{i}}</a>
+                        </li>
+                        {%endif%} {%endfor%} {% if proveedor.has_next %}
+
+                        <button class="btn page-link" id="siguiente-pag" href="?page={{ proveedor.next_page_number }}{% if parametros.urlencode %}&{{ parametros.urlencode }}{% endif %}" val="{{ proveedor.next_page_number }}">Siguiente</button> {%else%}
+
+                        <a class="page-link ">Siguiente</a> {%endif%}
+                    </ul>
+                </nav>
+            </div>
+    </div>    
+</div>
+
+</div>
+
+{%else%}
+<h1>usuario anonimo</h1>
+{% endif %}
+{% endblock Body %}

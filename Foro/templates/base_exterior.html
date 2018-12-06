@@ -1,0 +1,355 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="es">
+
+  <head>
+
+    <!--META-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>
+        {% block Titulo %} SIGPAd {% endblock Titulo %}
+    </title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'interior/css/admin.css'%}">
+    <link href="{% static 'exterior/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Custom fonts for this template -->
+    <link href="{% static 'exterior/vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <script src="https://unpkg.com/sweetalert2@7.22.2/dist/sweetalert2.all.js"></script>
+    <!-- Plugin CSS -->
+    <link href="{% static 'exterior/vendor/magnific-popup/magnific-popup.css'%}" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'exterior/css/freelancer.css'%}" rel="stylesheet">
+
+    {% block META %} {% endblock META %}
+
+    <!-- Para Footer y Mini Chat-->
+    <style>
+        .abajo {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            color: white;
+            display: inline;
+        }
+
+        .btn-group{
+          bottom: 0px;
+        }
+
+        .textfooter{
+          resize: none;
+        }
+
+        .dropbtn {
+            background-color: #1bd6b2;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+        }
+
+    </style>
+    {% block CSS %} {% endblock CSS %}
+
+    {% block cssMensaje %}{% endblock %}
+
+  </head>
+
+  <body id="page-top">
+        
+    {% block Navegacion %}
+    {% endblock Navegacion %}
+
+    {% block Body %} 
+    {% endblock Body %}    
+
+    {% block Footer %}
+    {% endblock Footer %}
+
+    {% if user.is_authenticated %}
+    {{exito}}
+    <div id="prueba_2"></div>
+  {% endif %}
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'exterior/vendor/jquery/jquery.min.js'%}"></script>
+    <script src="{% static 'exterior/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{% static 'exterior/vendor/jquery-easing/jquery.easing.min.js'%}"></script>
+    <script src="{% static 'exterior/vendor/magnific-popup/jquery.magnific-popup.min.js'%}"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="{% static 'exterior/js/jqBootstrapValidation.js'%}"></script>
+    <script src="{% static 'exterior/js/contact_me.js'%}"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="{% static 'exterior/js/freelancer.min.js'%}"></script>
+    {% block Script %} {% endblock Script %}
+
+  </body>
+
+  {% if user.is_authenticated %}
+
+    
+  <script type="text/javascript">
+
+    $(document).ready(function() {
+        var refreshId = setInterval(peticionChat, 3000);
+        $.ajaxSetup({
+            cache: false
+        });
+    });
+
+        //Para el footer de botones.
+        function peticionChat() {
+        $.get("/servicio_chat/", function(data, status) {
+            var cant = data.length;
+            //$('#footer_botones').empty();
+            $('#msjUser').empty();
+            
+            var v = `
+                <li><a class="py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/mensajes/0"><font size="1">ver todos</font></a></li>
+                <li>
+                <p class="number" style="color:black;"><font size="1">tienes <span id="tienes">0</span> mensajes</font></p>
+                </li>
+                `
+            $(v).appendTo($('#msjUser'));
+            $("#cant").text(cant);
+            $("#tienes").text(cant);
+        for(let i=0;i<=data.length;i++){
+          var valor = data[i].fields;
+          nombre = valor.username;
+          var lista=`<p><li>
+                    <a href="/mensajes/${valor.enviado}">
+                    <span class="photo">
+                      <img src="{% static "images/user.png" %}" height="40" width="40" style="margin-left:0px;" />
+                    </span> 
+                    <span class="subject"> 
+                      <span class="from">
+                        ${valor.username}
+                      </span> 
+                      <span class="time"><font size="0.4">
+                        ${valor.fecha} </font>
+                      </span>  
+                    </span> 
+                    <span class="message"><font size="1">
+                       ${valor.msj}</font>
+                    </span>
+                  </a><br><br><br>
+                </li>
+                </p>`;
+                var val = "dr"+valor.enviado;
+                var dr = null;
+                dr = document.getElementById(val);
+                if (dr) {
+
+                }else{
+                     var lista_2 = `<input type="number" value="${valor.enviado}"  id="dr${valor.enviado}" hidden="">
+                     <div class="btn-group">
+                      <input type="number" value="${valor.enviado}"  id="ch${valor.enviado}" hidden="">
+                      <div id="aqui_va_chat${valor.enviado}" style="padding-left: 10px; border:3px;"></div>
+                      <div class="dropup">
+                        <div id="contenedor"> 
+                          <div class="btn-group">
+                            <button class="btn dropbtn btn-secondary" id="boton${valor.enviado}" type="button" onclick="abrir(${valor.enviado},${valor.enviado})"> ${valor.username}</button> 
+                            <button class="btn dropbtn btn-secondary fa fa-times" id="boton_cerrar${valor.enviado}" onclick="cerrar_boton(${valor.enviado})" style="padding-left: 10px;"></button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>`;
+                  $(lista_2).appendTo($('#footer_botones'));
+                }
+            $(lista).appendTo($('#msjUser'));
+
+            }
+        });
+    }
+
+    function cerrar(i){
+      $("#boton"+i).show();
+      $("#chat"+i).hide();   
+      $("#boton_cerrar"+i).show(); 
+    }
+
+    function cerrar_boton(i){
+      $("#boton"+i).remove();
+      $("#chat"+i).remove();  
+      $("#boton_cerrar"+i).remove();
+
+    }
+    function abrir(i,id_chat) {
+          $("#boton"+i).hide();
+          $("#boton_cerrar"+i).hide();
+          $("#aqui_va_chat"+i).empty();
+          var lis = `
+          <div id="chat${i}" class="chat">
+                          <header>
+                                <h2 id="nombre_mini${i}" class='title'">
+                                </h2>
+                                <ul class='tools'>
+                                  <li>
+                                    <a class='fa fa-gear' href='#'>${i} ${id_chat}</a>
+                                  </li>
+                                  <li>
+                                    <button id="cerrar_chat_hide${i}" class="btn btn-secondary fa fa-window-minimize" href='#' onclick="cerrar(${i})"></button> 
+                                    <button id="cerrar_chat${i}" class="btn btn-secondary fa fa-user-times" href='#' onclick="cerrar_boton(${i})"></button> 
+                                  </li>
+                                </ul>
+                          </header>
+                          <div id="bodychat${i}" class="body">
+                            <ul id="msj${i}" class="msj">
+                            </ul>
+                          </div>
+                          <footer id="footer${i}" class="footer2">
+                            <form id="formulario${i}" action="" method="POST" role="form" enctype="multipart/form-data" accept-charset="UTF-8" >
+                            {% csrf_token %}
+                            ¡Envía un mensaje!
+                            <div class="row">
+                              <div class="col-md-9">
+                                <textarea id="mensaje${i}" class="textfooter" cols="25" rows="2" maxlength="299" rows="3" style="overflow:auto;width=100px;" required=""></textarea>
+                              </div>
+                              <div class="col-md-3">
+                                <button type="button" class="btn btn-secondary fa fa-envelope" onclick="submit_ajax(${i},${id_chat})"></button> 
+                              </div>                                
+                              </div>
+                            </form>
+                          </footer>
+                        </div>
+          `;
+          $(lis).appendTo($('#aqui_va_chat'+i));
+          agregarMensajes(i,id_chat);
+          setInterval( function() { agregarMensajes(i,id_chat); }, 3000);
+          $(".chat .body").animate({ scrollTop: $(document).height()+10000000 }, "fast");            
+    }
+
+    function agregarMensajes(i,id_chat){
+      var id_user = {{user.id}};
+      var emisor_yo_nombre, receptor_otro_nombre;
+      var user_emisor, user_receptor;
+      var foto_yo, foto_otro;
+
+      $.get("/servicio_usuario/"+id_user, function(data,status){
+          var us = data[0];
+          emisor_yo_nombre = us.nombre;
+          user_emisor = us.usuario;
+          foto_yo = us.foto;
+          if(foto_yo == ""){          
+            foto_yo = `<img  id="profile-img" src="{% static "images/user.png" %}" class="online" alt="" />`;
+          }else{
+            foto_yo = `<img  id="profile-img" src="/media/${foto_yo}" class="online" alt="" />`;
+          }
+      });
+
+      $.get("/servicio_usuario/"+id_chat, function(data,status){
+          var us_2 = data[0];
+          receptor_otro_nombre = us_2.nombre;
+          user_receptor = us_2.usuario;
+          foto_otro = us_2.foto;
+          if(foto_otro == ""){          
+            foto_otro = `<img  id="profile-img" src="{% static "images/user.png" %}" class="online" alt="" />`;
+          }else{ 
+            foto_otro = `<img  id="profile-img" src="/media/${foto_otro}" class="online" alt="" />`;
+          }
+      });
+      
+
+      $.get("/get_servicio_mini_chat/"+id_chat, function(data,status){
+            var cant = data.length;
+            var cor ="#msj"+i;
+            var lista;
+
+            $(cor).empty();
+
+            for (let k = 0; k <= data.length; k++) {
+              var valor = data[k].fields;
+              var date = new Date(valor.fecha_hora);
+              if(valor.enviado == id_user){
+
+                lista = `
+                              <li>
+                                <!--Emisor-->
+                                <a class='thumbnail' href='#' >
+                                  ${foto_yo}
+                                </a>
+                                
+                                <div class='content'>
+                                  <h3 style="color:black;">${emisor_yo_nombre}</h3>
+                                  <span class='preview' style="color:#2c3e50;;">${valor.msj}</span>
+                                  <span class='meta'>
+                                    ${valor.fecha_hora} &middot;
+                                  </span>
+                                </div>
+                              </li>
+                              `;
+              }else{
+                lista = `                           
+                          <li>
+                              <!--Emisor-->
+                              <a class='thumbnail' href='#' >
+                                ${foto_otro}
+                              </a>
+                              
+                              <div class='content'>
+                                <h3>${receptor_otro_nombre}</h3>
+                                <span class='preview' style="color:black;">${valor.msj}</span>
+                                <span class='meta'>
+                                  ${valor.fecha_hora} &middot;
+                                </span>
+                              </div>
+                            </li>
+                            `;
+              }     
+
+              $("#nombre_mini"+i).empty();
+              var nombre_l = `<p>${user_receptor} ${receptor_otro_nombre}</p>`;
+              $(nombre_l).appendTo($("#nombre_mini"+i));          
+              $(lista).appendTo($(cor));
+            }
+        });
+    }
+
+    //Formulario
+
+    function submit_ajax(i, id_receptor){
+      var id_user = {{user.id}};
+      var msg = $('#mensaje'+i).val();
+      if (msg != "") {
+        $.ajax({
+            type:'POST',
+            url: '/enviar_mensaje_mini_chat/'+id_receptor+"/"+id_user,
+            data:{
+              mensaje:$('#mensaje'+i).val(),
+              csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            beforeSend: function (){
+
+            },
+            success:function(){
+              $('#mensaje'+i).val("");
+            }
+          });
+      }else{
+        swal("Envíe un mensaje");
+      }
+     
+    }
+
+
+</script>
+  {% endif %}
+
+</html>
+

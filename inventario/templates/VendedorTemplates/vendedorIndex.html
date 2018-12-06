@@ -1,0 +1,90 @@
+{% extends "baseUser.html" %}
+{% load staticfiles %}
+
+
+{% block Body %}
+
+{% if user.is_superuser %}
+<h1>superusuario</h1>
+{%elif user.is_authenticated%}
+    <br/>
+    <main class="servicios p-y-1">
+        <div class="container">
+            <div class="row">
+                <article class="col-md-4 wow bounceInLeft" data-wow-delay=".3s">
+                    <a href="/registrarVenta"><img src="{% static 'images/vender.png' %}" width="150px" height="150px"></a>
+                    <h3><a href="/registrarVenta" class="btn btn-secondary"> <STRONG>Registrar Ventas</STRONG> </a></h3>
+                    <p class="hidden-sm-down">Aquí debes registrar todas las ventas realizadas o servicios proporcionados.</p>
+                </article>
+
+                <article class="col-md-4 wow bounceInUp" data-wow-delay=".6s">
+                    <a href="/listadoCompras"><img src="{% static 'images/comprar.png' %}" width="150px" height="150px"></a>
+                    <h3><a href="/listadoCompras">Registrar compras</a></h3>
+                    <p class="hidden-sm-down">Aqui debes registrar todas las compras realizadas por la compañia.</p>
+                </article>
+                <article class="col-md-4 wow bounceInUp" data-wow-delay=".6s">
+                    <a href="/mostrarInventario"><img src="{% static 'images/inventario.png' %}" width="200px" height="150px"></a>
+                    <h3><a href="/mostrarInventario">Inventario</a></h3>
+                    <p class="hidden-sm-down"><strong>Aqui puedes asignar el precio de venta a cada producto</strong> Aqui puedes ver los productos en inventario, la cantidad en existencia y otros detalles.</p>
+
+                </article>
+            </div>
+            <div class="row">
+                <article class="col-md-4 wow bounceInUp" data-wow-delay=".6s">
+                    <a  href="/registrarCategoria"><img src="{% static 'images/categoria2.png' %}" width="150px" height="140px"></a>
+                    <h3 ><a href="/registrarCategoria">Categoría</a></h3>
+                    <p  class="hidden-sm-down">Agregar una nueva categoría</p>
+                </article>
+
+                <article class="col-md-4 wow bounceInUp" data-wow-delay=".6s">
+                    <a  href="/ingresarProducto"><img src="{% static 'images/almacen.png' %}" width="150px" height="140px"></a>
+                    <h3 ><a href="/ingresarProducto">Producto</a></h3>
+                    <p  class="hidden-sm-down">Agregar un nuevo producto</p>
+                </article>
+
+                <article class="col-md-4 wow bounceInUp" data-wow-delay=".6s">
+                    <a href="/graficaMes"><img src="{% static 'images/grafico.png' %}" width="150px" height="150px"></a>
+                    <h3><a href="/graficaMes">Gráficos</a></h3>
+                    <p class="hidden-sm-down">Aquí puedes ver los gráficos de venta, así como los productos más vendidos.</p>
+                </article>
+            </div>
+            <div class="row">
+                <article class="col-md-4 wow bounceInUp" data-wow-delay=".6s">
+                    <a href="/subirExcel"><img src="{% static 'images/excel.png' %}" width="150px" height="150px"></a>
+                    <h3><a href="/subirExcel">Subir categorías y productos en excel</a></h3>
+                    <p class="hidden-sm-down">Puedes subir un archivo excel estandarizado con las categorías y productos existentes para ahorrar tiempo</p>
+                </article>
+
+                <article class="col-md-4 wow bounceInUp" data-wow-delay=".6s">
+                    <a  href="/registrarProveedores"><img src="{% static 'images/proveedores.png' %}" width="150px" height="140px"></a>
+                    <h3 ><a href="/registrarProveedores">Proveedores</a></h3>
+                    <p  class="hidden-sm-down">Puedes gestionar tus proveedores</p>
+                </article>
+
+                <article class="col-md-4 wow bounceInUp" data-wow-delay=".3s">
+                    <a href="/registrarClientes"><img src="{% static 'images/cliente.png' %}" width="150px" height="150px"></a>
+                    <h3><a href="/registrarClientes">Clientes</a></h3>
+                    <p class="hidden-sm-down">Puedes gestionar a tus clientes</p>
+                </article>
+            </div>
+            <div class="row" id="ultimo">
+                <article class="col-md-4 wow bounceInUp" data-wow-delay=".3s">
+                    <a href="/mostrarVenta"><img src="{% static 'images/misventas.png' %}" width="150px" height="150px"></a>
+                    <h3><a href="/mostrarVenta" class="btn btn-secondary"> <STRONG>Mostrar Ventas</STRONG> </a></h3>
+                    <p class="hidden-sm-down">Aquí podrás ver todas las ventas que se han
+                    realizado.
+                    </p>
+                </article>
+                <article class="col-md-4 wow bounceInUp" data-wow-delay=".6s">
+                    <a href="/productoAMostrar"><img src="{% static 'images/mostrar.png' %}" width="150px" height="150px"></a>
+                    <h3><a href="/productoAMostrar">Foro</a></h3>
+                    <p class="hidden-sm-down">Aquí puedes gestionar los productos del foro</p>
+                </article>
+            </div>
+        </div>
+    </main>
+
+{%else%}
+<h1>usuario anonimo</h1>
+{% endif %}
+{% endblock Body %}

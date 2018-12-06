@@ -1,0 +1,298 @@
+{% extends 'baseUser.html' %}
+{% load staticfiles %}
+{% block CSS %}
+    <script type="text/javascript" src="{% static 'alertas/alertas.js' %}"></script>
+    <link rel="stylesheet" href="{% static '/css/bootstrap4.css'%}">
+    <script src="{% static "console_1.js" %}"></script>
+    <script src="{% static "events_runner.js" %}"></script>
+    <script src="{% static "css_live_reload_init.js" %}"></script>
+    <meta charset='UTF-8'>
+    <meta name="robots" content="noindex">
+    <script src="{% static "js/hoy3lrg.js" %}"></script>
+    <script>
+        try{ 
+          Typekit.load({ async: true });
+        }catch(e){}
+    </script>
+    <link rel='stylesheet prefetch' href="{% static "css/frame.css" %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'interior/css/admin.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'interior/css/estilos.css'%}">
+    <link rel='stylesheet prefetch' href="{% static "css/reset.min.css" %}">
+    <link rel='stylesheet prefetch' href="{% static "css/font-awesome.min.css" %}">
+    <link href="{% static 'exterior/vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link href="{% static 'exterior/vendor/magnific-popup/magnific-popup.css'%}" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'exterior/css/freelancer.css'%}" rel="stylesheet">
+{% endblock CSS %}
+
+{% block pestania %}
+{% endblock %}
+
+{% block Body %}
+
+    {% if yo.is_authenticated %}
+        <div id="frame" style="min-width: 150px; max-width: 8000px; height: 92vh; min-height: 100px; max-height: 625px;">
+            <div id="sidepanel">
+                <div id="profile">
+                    <div class="wrap">
+                    {% if yo.cliente_set.all %}
+                        {% for cl in yo.cliente_set.all %}
+                            {% if cl.foto %}
+                                <img  id="profile-img" src="/media/{{cl.foto}}" alt=""  class="online" height="40px"/>
+                            {% else %}
+                                <img  id="profile-img" src="{% static "images/user.png" %}" class="online" alt="" />
+                            {% endif %}
+                        {% endfor %}
+                    {% elif yo.empleado_set.all %}
+                        {% for cl in yo.empleado_set.all %}
+                            {% if cl.foto %}
+                                <img  id="profile-img" src="/media/{{cl.foto}}" height="40px"  class="online" alt="foto empleado"/>
+                            {% else %}
+                                <img id="profile-img" src="{% static "images/user.png" %}" class="online" alt="" />
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <img src="{% static "images/louislitt.png" %}" alt="" />
+                    {% endif %}
+                    <p> {{yo.username}} </p>
+                    <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
+                    <div id="status-options">
+                        <ul>
+                            <li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
+                            <li id="status-away"><span class="status-circle"></span> <p>Away</p></li>
+                            <li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>
+                            <li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
+                        </ul>
+                    </div>
+                    <div id="expanded" hidden="">
+                        <label for="twitter"><i class=" fa fa-facebook-f" aria-hidden="true"></i></label>
+                        <input name="twitter" type="text" value="mikeross" />
+                        <label for="twitter"><i class="fa fa-twitter fa-fw" aria-hidden="true"></i></label>
+                        <input name="twitter" type="text" value="ross81" />
+                        <label for="twitter"><i class="fa fa-instagram fa-fw" aria-hidden="true"></i></label>
+                        <input name="twitter" type="text" value="mike.ross" />
+                    </div>
+                </div>
+            </div>
+            <div id="search">
+                <form method="GET" class="form-inline"> 
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input type="text"placeholder="Buscar contactos..." value="{{request.GET.consulta}}" name="consulta" id="consulta"/>
+                    <button type="submit" class="btn btn-info" hidden=""><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
+            </div>
+            <div id="contacts">
+                <ul>
+                    {% for us in contactos %}
+                    <li class="contact">
+                        <a href="/mensajes/{{us.id}}">
+                            <div class="wrap">
+                                <span class="contact-status online"></span>
+                                {% if us.cliente_set.all %}
+                                {% for cl in us.cliente_set.all %}
+                                {% if cl.foto %}
+                                <img src="/media/{{cl.foto}}" alt="" height="40px" />
+                                {% else %}
+                                <img src="{% static "images/user.png" %}" alt="" />
+                                {% endif %}
+                                {% endfor %}
+                                {% elif us.empleado_set.all %}
+                                {% for cl in us.empleado_set.all %}
+                                {% if cl.foto %}
+                                <img src="/media/{{cl.foto}}" alt="" height="40px" />
+                                {% else %}
+                                <img src="{% static "images/user.png" %}" alt="" />
+                                {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                <img src="{% static "images/user.png" %}" alt="" />
+                                {% endif %}
+                                <div class="meta">
+                                    <p class="name">{{us.username}} </p>
+                                    <p class="preview"> {{us.ultimo}} </p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div id="bottom-bar">
+                <button id="addcontact" onclick="location.href='/nuevoMensaje'"><a href="/nuevoMensaje" style="font-size: 15px;"><i class="fa fa-plus" aria-hidden="true"></i> <span>Add contact</span></a></button>
+                <button id="settings"> <a href="" style="font-size: 15px;"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></a></button>
+            </div>
+        </div>
+        <div class="content">
+            <div class="contact-profile">
+                {% if primer %}
+                    {% for cl in primer.cliente_set.all %}
+                        {% if cl.foto %}
+                            <img src="/media/{{cl.foto}}" alt="" height="40px" />
+                        {% else %}
+                            <img src="{% static "images/user.png" %}" alt="" />
+                        {% endif %}
+                    {% endfor %}
+                    {% for cl in primer.empleado_set.all %}
+                        {% if cl.foto %}
+                            <img src="/media/{{cl.foto}}" alt="" height="40px" />
+                        {% else %}
+                            <img src="{% static "images/user.png" %}" alt="" />
+                        {% endif %}
+                    {% endfor %}
+                    <p> {{primer.username}}</p>
+                    <div class="social-media" hidden="">
+                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                    </div>
+                {% else %}
+                    <img src="{% static "images/anonimo.png" %}" alt="" />
+                    <p> Seleccione un destinatario </p>
+                    <div class="social-media" hidden="">
+                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                    </div>
+                {% endif %}
+                {% if error %}
+                    <div class="social-media">
+                        <h3 class="alert-danger">{{error}}</h3>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="messages">
+                <ul>
+                    {% if chat %}
+                        {% for c in chat.mensaje_set.all %}
+                            {% if c.enviado == yo.id %}
+                                <li class="sent" style="margin-left: 0px;">
+                                {% if yo.cliente_set.all %}
+                                    {% for cl in yo.cliente_set.all %}
+                                        {% if cl.foto %}
+                                            <img src="/media/{{cl.foto}}" alt="" />
+                                        {% else %}
+                                            <img src="{% static "images/user.png" %}" alt="" />
+                                        {% endif %}
+                                    {% endfor %}
+                                {% elif yo.empleado_set.all %}
+                                    {% for cl in yo.empleado_set.all %}
+                                        {% if cl.foto %}
+                                            <img src="/media/{{cl.foto}}" alt="" />
+                                        {% else %}
+                                            <img src="{% static "images/user.png" %}" alt="" />
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <img src="{% static "images/user.png" %}" alt="" />
+                                {% endif %}
+                                    <p> {{c.msj}} </p>
+                                </li>
+                            {% else %}
+                                    <li class="replies">
+                                    {% if primer.cliente_set.all %}
+                                        {% for cl in primer.cliente_set.all %}
+                                            {% if cl.foto %}
+                                                <img src="/media/{{cl.foto}}" alt="" />
+                                            {% else %}
+                                                <img src="{% static "images/user.png" %}" alt="" />
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% elif primer.empleado_set.all %}
+                                        {% for cl in primer.empleado_set.all %}
+                                            {% if cl.foto %}
+                                                <img src="/media/{{cl.foto}}" alt="" />
+                                            {% else %}
+                                                <img src="{% static "images/user.png" %}" alt="" />
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <img src="{% static "images/user.png" %}" alt="" />
+                                    {% endif %}
+                                        <p>{{c.msj}}</p>
+                                    </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                            <li class="replies">
+                                <img src="{% static "images/user.png" %}" alt="" />
+                                <p>Selecciona un chat!!!</p>
+                            </li>
+                    {% endif %}
+                        <div id="mostrar">
+                              
+                        </div>
+                    </ul>
+                </div>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="message-input">
+                        <div class="wrap">
+                            <input type="text" placeholder="Escriba su mensaje..." style="font-size: 15px;" maxlength="290" max="290" name="msg" id="msg" required="" title="introdusca su mensaje" oninvalid="this.setCustomValidity('Ingrese un mensaje, como lo pensas mandar vacio!!!!!')" />
+                            <i class="fa fa-bullhorn attachment" aria-hidden="true"></i>
+                            <button type="submit" class="submit"><span><i class="fa fa-upload" aria-hidden="true"></i></span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src='stopExecutionOnTimeout.js'></script>
+        <script src='jquery-2.1.0.js'></script>
+        <script >
+            $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+            $("#profile-img").click(function() {
+                $("#status-options").toggleClass("active");
+                });
+
+            $(".expand-button").click(function() {
+                $("#profile").toggleClass("expanded");
+                $("#contacts").toggleClass("expanded");
+                });
+
+            $("#status-options ul li").click(function() {
+                $("#profile-img").removeClass();
+                $("#status-online").removeClass("active");
+                $("#status-away").removeClass("active");
+                $("#status-busy").removeClass("active");
+                $("#status-offline").removeClass("active");
+                $(this).addClass("active");
+                if($("#status-online").hasClass("active")) {
+                    $("#profile-img").addClass("online");
+                } else if ($("#status-away").hasClass("active")) {
+                    $("#profile-img").addClass("away");
+                } else if ($("#status-busy").hasClass("active")) {
+                    $("#profile-img").addClass("busy");
+                } else if ($("#status-offline").hasClass("active")) {
+                    $("#profile-img").addClass("offline");
+                } else {
+                    $("#profile-img").removeClass();
+                };
+                $("#status-options").removeClass("active");
+            });
+
+            function peticion() {
+                $.get("/servicio_mensajeria/{{yo.id}}/{{primer.id}}",function(data,status){
+                    for(let i=0;i<data.length;i++){
+                        var valor = data[i].fields;                       
+                        var lista=`<li class="replies"><img src="${valor.img}" alt="" /><p> ${valor.msj}</p></li>`
+                        $(lista).appendTo($('.messages ul'));
+                        $(".messages").animate({ scrollTop: $(document).height()+10000000 }, "fast");
+                    }
+                });
+            }
+
+            $(document).ready(function(){
+                var refreshId = setInterval(peticion, 3000);
+                $.ajaxSetup({ cache: false });
+            });
+            $(".messages").animate({ scrollTop: $(document).height()+10000000 }, "fast");
+            </script>    
+    {% else %}
+            <h1>para estar aqui debe registrarse</h1>
+    {% endif %}
+{% endblock Body %}

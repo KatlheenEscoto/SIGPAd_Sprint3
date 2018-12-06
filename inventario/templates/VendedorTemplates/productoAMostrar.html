@@ -1,0 +1,62 @@
+{% extends "baseUser.html" %} 
+{% load staticfiles %}
+{% block Script %}
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css"/>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+  <script>
+    $(document).ready(function(){
+        var table = $('#productos').dataTable({
+        "pagingType": "full_numbers"});
+    });
+  </script>
+{% endblock Script %}
+{% block CSS %}
+<style>
+  table th {
+  		text-align: center;
+		}
+	table tr {
+  			text-align: center;
+		}
+</style>
+{% endblock CSS %}
+{% block Body %}
+  <p></p>
+    <div class="container">
+      <h1>Productos</h1>
+      <table id="productos" class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Marca</th>
+            <th>Ver</th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Marca</th>
+            <th>Ver</th>
+          </tr>
+        </tfoot>
+        <tbody>
+        {% for p in productos %}        
+          <tr>
+            <td>{{p.codigo}}</td>
+            <td>{{p.nombre}}</td>
+            <td>{{p.marca}}</td>
+            <td>
+                <a href="{% url 'inventario:editarProducto' p.id %}">
+                  <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                </a>
+              
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+{% endblock Body %}
